@@ -28,14 +28,14 @@ export class Game {
         this.player1.send(JSON.stringify({
             type : INIT_GAME,
             payload : {
-                color : "white"
+                color : "w"
             }
         }))
 
         this.player2.send(JSON.stringify({
             type : INIT_GAME,
             payload : {
-                color : "black"
+                color : "b"
             }
         }))
     }
@@ -59,6 +59,7 @@ export class Game {
             this.board.move(move);
 
         }catch(e){
+            console.log(move)
             console.log("illegal move")
             return;
         }
@@ -70,14 +71,14 @@ export class Game {
             this.player1.send(JSON.stringify({
                 type : GAME_OVER,
                 payload : {
-                    winner : this.board.turn() === "w" ? "black" : "white"
+                    winner : this.board.turn() === "w" ? "b" : "w"
                 }
             }));
 
             this.player2.send(JSON.stringify({
                 type : GAME_OVER,
                 payload : {
-                    winner : this.board.turn() === "w" ? "black" : "white"
+                    winner : this.board.turn() === "w" ? "b" : "w"
                 }
             }));
 
