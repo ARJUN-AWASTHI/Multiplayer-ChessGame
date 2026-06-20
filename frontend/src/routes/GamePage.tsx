@@ -15,6 +15,7 @@ const GamePage = () => {
     const chessRef = useRef(new Chess());
     const [board, setBoard] = useState(chessRef.current.board());
     const playerColorRef = useRef("");
+	const [started , setStarted] = useState<boolean>(false);
 
     useEffect(() => {
         if (!socket) return;
@@ -26,6 +27,7 @@ const GamePage = () => {
                 case INIT_GAME:
                     console.log("INIT_GAME");
                     initializeGame(message);
+
                     break;
                 case MOVE:
                     console.log("MOVE");
@@ -67,6 +69,7 @@ const GamePage = () => {
 
         let color: string = message.payload.color;
         playerColorRef.current = color;
+		setStarted(true);
     }
 
     function handleMoveRecieve(message) {
@@ -90,14 +93,14 @@ const GamePage = () => {
 
     return (
         <div className='w-screen h-screen p-8'>
-            <div className='flex h-full justify-evenly '>
+            <div className='flex h-full justify-center items-center '>
                 <div className="w-200 ">
                     <Board board={board} handleMove={handleMove} />
                 </div>
                 <div className='border flex justify-between items-center w-90 '>
-                    <button onClick={handleStartGame} className="rounded-lg shadow-2xl px-3 py-2 text-3xl w-full mx-10 text-white bg-lime-600 ">
+                    {!started && < button onClick={handleStartGame}  className="rounded-lg shadow-2xl px-3 py-2 text-3xl w-full mx-10 text-white bg-lime-600  ">
                         Start Game
-                    </button>
+                    </button>}
                 </div>
             </div>
         </div>

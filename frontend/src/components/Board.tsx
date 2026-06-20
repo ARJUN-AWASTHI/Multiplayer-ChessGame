@@ -1,6 +1,29 @@
-import {  type Color, type PieceSymbol, type Square } from 'chess.js';
+import { type Color, type PieceSymbol, type Square } from 'chess.js';
 import { CHESS_BOARD } from '../config';
 import type { BoardSquare } from '../types';
+
+import bb from "../assets/pieces/bishop-b.svg";
+import wb from "../assets/pieces/bishop-w.svg";
+import bk from "../assets/pieces/king-b.svg";
+import wk from "../assets/pieces/king-w.svg";
+import bn from "../assets/pieces/knight-b.svg";
+import wn from "../assets/pieces/knight-w.svg";
+import bp from "../assets/pieces/pawn-b.svg";
+import wp from "../assets/pieces/pawn-w.svg";
+import bq from "../assets/pieces/queen-b.svg";
+import wq from "../assets/pieces/queen-w.svg";
+import br from "../assets/pieces/rook-b.svg";
+import wr from "../assets/pieces/rook-w.svg";
+
+const pieceImages = {
+    bb: bb, wb: wb,
+    bk: bk, wk: wk,
+    bn: bn, wn: wn,
+    bp: bp, wp: wp,
+    bq: bq, wq: wq,
+    br: br, wr: wr
+};
+
 
 
 
@@ -22,7 +45,7 @@ const Board = ({ board, handleMove }: {
         square: Square;
         type: PieceSymbol;
         color: Color;
-    } | null)[][] | null): BoardSquare[][]{
+    } | null)[][] | null): BoardSquare[][] {
 
 
         let newBoard: BoardSquare[][] = [];
@@ -44,7 +67,7 @@ const Board = ({ board, handleMove }: {
                         };
                     }
                     else {
-                        
+
                         newBoard[r][c] = {
                             square: CHESS_BOARD[r][c],
                             type: null,
@@ -77,6 +100,9 @@ const Board = ({ board, handleMove }: {
 
 
     function handleSquareClick(sq: BoardSquare) {
+
+
+        console.log(sq)
         if (!firstClick) firstClick = sq.square;
         else if (sq.square !== firstClick) {
             secondClick = sq.square;
@@ -103,11 +129,26 @@ const Board = ({ board, handleMove }: {
                 return <div key={r} className='flex'>
                     {row.map((sq, c) => {
                         return <div key={c}
-                            className={`flex font-bold text-3xl items-center justify-center w-20 h-20 ${(r + c) % 2 === 0 ? "bg-slate-400" : "bg-slate-700" } ${sq && sq.pieceColor === 'w' ? "text-white" : "text-black"  } `}
+                            className={`flex font-bold items-center justify-center w-20 h-20 p-1 ${(r + c) % 2 === 0 ? "bg-slate-400" : "bg-slate-700"} `}
 
                             onClick={() => handleSquareClick(sq)}
+
                         >
-                            {sq ? sq.type : ""}
+
+
+
+                            {
+
+                                sq.type ? <img
+                                    //@ts-ignore
+                                    src={pieceImages[`${sq.pieceColor}${sq.type.toLowerCase()}`]}
+                                    className=''
+                                    alt=""
+                                /> : null
+
+
+                            }
+
                         </div>
                     })}
 
